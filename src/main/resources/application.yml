@@ -1,0 +1,31 @@
+server:
+    port: 8088
+spring:
+    datasource:
+        url: jdbc:mysql://127.0.0.1:3306/mysql?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+        #url: jdbc:mysql://localhost:3306/mysql?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        #username: root
+        #password: 123456
+        thymeleaf:
+        cache: false
+mybatis:
+    mapper-locations: classpath*:mybatis/mapper/*/*.xml
+
+wzurl: https://www.douyu.com/g_wzry
+lolurl: https://www.douyu.com/g_LOL
+lsurl: https://www.douyu.com/g_How
+mailsmtpauth: true
+mailtransportprotocol: smtp
+mailsendcharset: UTF-8
+mailsmtpport: 465
+mailisssl: true
+mailhost: smtp.163.com
+mailauthname: zhangwforever@163.com
+mailauthpassword: 1q2w3e4r
+mailsmtptimeout: 10000
+dingDingRobotUrl: https://oapi.dingtalk.com/robot/send?access_token=82f3de8e78c2bb1284f844603b2de46f65b22e2ef33ad7d173975cbdb5733703
+telphone1: 18829288843
+telphone2: 18729086497
+

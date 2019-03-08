@@ -1,0 +1,89 @@
+package com.core.blog.control;
+
+import com.core.blog.service.*;
+import com.core.blog.uitls.EmailUtils;
+import com.core.console.po.UserBean;
+import com.core.console.service.UserService;
+import com.core.console.uitl.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+
+import java.util.List;
+
+
+
+/**
+ * 功能描述: 发送邮件
+ *
+ * @param:
+ * @return:
+ * @auther: ZHANGWEI
+ * @date: 2018/12/13/00013 21:31
+ */
+@Component
+public class EMailController {
+    @Autowired
+    HuangLiServiceImpl huangLiService;
+    @Autowired
+    NewsApiServiceImpl newsApiService;
+    @Autowired
+    WeatherServiceImpl weatherService;
+    @Autowired
+    MovieServiceImpl movieService;
+    @Autowired
+    NovelServiceImpl novelService;
+    @Autowired
+    JokeiServiceImpl jokeiService;
+    @Autowired
+    UserService userService;
+
+    //@Scheduled(cron = "0 0/2 0 * * ?")
+//每两分钟执行
+    @Scheduled(cron = "0 05 07 ? * *")
+    //每天早上6点触发
+    String sendEmail() {
+        UserBean userBean = new UserBean();
+        PageInfo pageInfo = new PageInfo();
+        int count = 0;//记录次数
+        userBean.setUserState("1");//只给状态为1的人发送邮件
+        List<UserBean> userBeanList = userService.getUser(userBean, pageInfo);
+        if (userBeanList.isEmpty()) {
+            return "无发件人发送失败";
+        }
+        for (UserBean user : userBeanList) {
+            String[] emailUrl = new String[1];//目的邮箱地址
+            emailUrl[0] = user.getEmail();
+            String emailTheme = user.getEmailTheme();//邮件主题
+            String name = user.getUserName();//收件人姓名
+            String cityCode = user.getCityCode();//城市编码
+            String huangLi = huangLiService.getApiContent("");
+            String weather = weatherService.getApiContent("", cityCode);
+            String movie = movieService.getApiContent("").get("email");
+            String news = newsApiService.getApiContent("");
+            String novel = novelService.getApiContent("");
+            String joke = jokeiService.getApiContent("");
+            String content = weather + "<br/>" + news + "<br/>" + huangLi + "<br/>" + movie + "<br/><br/>" + novel + "<br/>" + joke;
+            if ("张维".equals(name)) {
+                content = "今日已成功给" + count + "位小伙伴发送订阅邮件" + "<br/>" + weather + "<br/>" + news + "<br/>" + huangLi + "<br/>" + movie + "<br/><br/>" + novel + "<br/>" + joke;
+            }
+            //String[] chaoSongrenUrl = {""};//抄送邮箱地址
+            //List<Map<String, String>> listMap = new ArrayList<>();附件
+            boolean result = EmailUtils.sendEmail(emailTheme, emailUrl, null, content, null);
+            if (!result) {
+                boolean result2 = EmailUtils.sendEmail(emailTheme, emailUrl, null, content, null);
+                if (!result2) {
+                    boolean result3 = EmailUtils.sendEmail(emailTheme, emailUrl, null, content, null);
+                    if (!result3) {
+                        String[] w = {"1374559379@qq.com"};
+                        EmailUtils.sendEmail("三次都失败了", w, null, name + "发送了三次都失败了", null);
+                        count = count - 1;
+                    }
+                }
+            }
+            count += 1;
+        }
+        return "发送成功";
+    }
+}

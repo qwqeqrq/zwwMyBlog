@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core.blog.dao.articledao.ArticleDao">
+    <resultMap id="BaseResultMap" type="com.core.blog.po.ArticleBean">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="lb_id" jdbcType="INTEGER" property="lbId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="clicks" jdbcType="INTEGER" property="clicks" />
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    </resultMap>
+<select id="getArticle" parameterType="com.core.blog.po.ArticleBean" resultMap="BaseResultMap">
+    SELECT
+    id,
+    user_id,
+    lb_id,
+    title,
+    text,
+    clicks,
+    add_time
+    FROM
+    article
+    <where>
+    <if test="article.id != null">
+        and  id = #{article.id}
+    </if>
+    <if test="article.userId != null">
+        and  user_id = #{article.userId}
+    </if>
+    <if test="article.lbId != null">
+        and  lb_id = #{article.lbId}
+    </if>
+    <if test="article.title != null and article.title != ''">
+        and  title = #{article.title}
+    </if>
+    <if test="article.clicks != null">
+        and  clicks = #{article.clicks}
+    </if>
+    <if test="article.addTime != null">
+        and  add_time = #{article.addTime}
+    </if>
+    </where>
+</select>
+
+    <insert id="writeArticle" parameterType="com.core.blog.po.ArticleBean" >
+        INSERT into article (user_id,lb_id,title,text,clicks,add_time) VALUES
+        (#{articleBean.userId},#{articleBean.lbId},#{articleBean.title},
+        #{articleBean.text},#{articleBean.clicks},now())
+    </insert>
+
+
+</mapper>

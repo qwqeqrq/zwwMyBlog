@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core.blog.dao.replydao.ReplyDao">
+    <resultMap id="BaseResultMap" type="com.core.blog.po.ReplyBean">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="article_id" jdbcType="INTEGER" property="articleId" />
+        <result column="ping_lun_ren_id" jdbcType="INTEGER" property="pingLunRenId" />
+        <result column="ping_lun_nei_rong" jdbcType="VARCHAR" property="pingLunNeiRong" />
+        <result column="hui_fu_nei_rong" jdbcType="VARCHAR" property="huiFuNeiRong" />
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    </resultMap>
+<select id="getReply" parameterType="com.core.blog.po.ReplyBean"  resultMap="BaseResultMap">
+    SELECT
+    id,
+    article_id,
+    ping_lun_ren_id,
+    ping_lun_nei_rong,
+    hui_fu_nei_rong,
+    add_time
+    FROM
+    reply
+    <where>
+    <if test="reply.id != null">
+     and   id = #{reply.id}
+    </if>
+    <if test="reply.articleId != null">
+        and  article_id = #{reply.articleId}
+    </if>
+    <if test="reply.pingLunRenId != null">
+        and  ping_lun_ren_id = #{reply.pingLunRenId}
+    </if>
+    <if test="reply.addTime != null">
+        and   add_time = #{reply.addTime}
+    </if>
+    <if test="reply.pingLunNeiRong != null">
+        and   ping_lun_nei_rong = #{reply.pingLunNeiRon}
+    </if>
+    <if test="reply.huiFuNeiRong != null">
+        and   hui_fu_nei_rong = #{reply.huiFuNeiRong}
+    </if>
+    </where>
+</select>
+
+
+    <insert id="addRepiy"   parameterType="com.core.blog.po.ReplyBean" >
+        insert into reply (id, article_id, ping_lun_ren_id,
+      add_time, ping_lun_nei_rong, hui_fu_nei_rong
+      )
+    values (#{reply.id}, #{reply.articleId}, #{reply.pingLunRenId},
+      #{reply.addTime}, #{reply.pingLunNeiRong}, #{reply.huiFuNeiRong}
+      )
+    </insert>
+
+    <update id="updateReply"  parameterType="com.core.blog.po.ReplyBean">
+        UPDATE reply
+        <set>
+            <if test="reply.id != null">
+                id = #{reply.id},
+            </if>
+            <if test="reply.articleId != null">
+                article_id = #{reply.articleId},
+            </if>
+            <if test="reply.pingLunRenId != null">
+                ping_lun_ren_id = #{reply.pingLunRenId},
+            </if>
+            <if test="reply.pingLunNeiRong != null and reply.pingLunNeiRong != ''">
+                ping_lun_nei_rong = #{reply.pingLunNeiRong},
+            </if>
+            <if test="reply.huiFuNeiRong != null and reply.huiFuNeiRong != ''">
+                hui_fu_nei_rong = #{reply.huiFuNeiRong},
+            </if>
+            add_time = now(),
+        </set>
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from reply
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

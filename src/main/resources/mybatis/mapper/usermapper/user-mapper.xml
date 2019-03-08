@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core.console.dao.userdao.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.core.console.po.UserBean">
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_code" jdbcType="VARCHAR" property="userCode" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="email_theme" jdbcType="VARCHAR" property="emailTheme" />
+        <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="user_state" jdbcType="VARCHAR" property="userState" />
+        <result column="login_time" jdbcType="VARCHAR" property="loginTime" />
+    </resultMap>
+
+
+    <select id="getUser" parameterType="com.core.console.po.UserBean" resultMap="BaseResultMap">
+        SELECT
+                user_id,
+                email,
+                user_code,
+                city_code,
+                user_name,
+                email_theme,
+                user_password,
+                user_state,
+                login_time
+                from
+                sys_user
+        <where>
+            <if test="userBean.userId != null">
+              and  user_id = #{userBean.userId}
+            </if>
+            <if test="userBean.userCode != null and userBean.userCode != ''">
+              and user_code = #{userBean.userCode}
+            </if>
+            <if test=" userBean.userName != null">
+                and  user_name = #{userBean.userName}
+            </if>
+            <if test=" userBean.userPassword != null and userBean.userPassword !=''">
+                and  user_password = #{userBean.userPassword}
+            </if>
+            <if test=" userBean.userState != null">
+                and  user_state = #{userBean.userState}
+            </if>
+        </where>
+        order by login_time DESC
+        <if test="size != null and size &gt; 0">limit #{startrow},#{size}</if>
+    </select>
+
+</mapper>

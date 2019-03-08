@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="${'http://www.thymeleaf.org">
+
+<head th:fragment="head(title,cssPaths)">
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Custom CSS -->
+    <link href="../static/dist/css/sb-admin-2.css" th:href="${'/dist/css/sb-admin-2.css'}" rel="stylesheet"/>
+
+    <link th:href="${'/vendor/bootstrap/css/bootstrap.min.css'}" href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- MetisMenu CSS -->
+    <link href="../static/vendor/metisMenu/metisMenu.min.css" th:href="${'/vendor/metisMenu/metisMenu.min.css'}" rel="stylesheet"/>
+    <!-- Morris Charts CSS -->
+    <link href="../static/vendor/morrisjs/morris.css" th:href="${'/vendor/morrisjs/morris.css'}" rel="stylesheet"/>
+
+    <!-- Custom Fonts -->
+    <link href="../static/vendor/font-awesome/css/font-awesome.min.css" th:href="${'/vendor/font-awesome/css/font-awesome.min.css'}"       rel="stylesheet" type="text/css"/>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script th:src="@{https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js}"></script>
+    <script th:src="@{https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js}"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">用户登录</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form"  th:action="@{/sys/login}" method="post">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="E-mail" name="userCode" type="email" autofocus=""/>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="userPassword" type="password" value=""/>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="remember" type="checkbox" value="Remember Me"/>记住密码
+                                    </label>
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <!--<a href="/sys/login" class="btn btn-lg btn-success btn-block">登录</a>-->
+                                <input type="submit" class="btn btn-lg btn-success btn-block" th:value="登录"/>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <!-- Bootstrap Core JavaScript -->
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script th:src="@{/vendor/metisMenu/metisMenu.min.js}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script th:src="@{/vendor/raphael/raphael.min.js}"></script>
+    <script th:src="@{/vendor/morrisjs/morris.min.js}"></script>
+    <script th:src="@{/data/morris-data.js}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script th:src="${'/js/sb-admin-2.js'}"></script>
+
+</body>
+<script th:inline="javascript">/*获得错误提示*/
+    $(document).ready(function() {
+       var a = [[${result.code}]];
+       if(a!= 0){
+           var b = [[${result.msg}]];
+           alert(b);
+       }
+    });
+</script>
+
+</html>

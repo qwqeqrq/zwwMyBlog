@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- TODO:项目名，如leads:wangkeApp，中间不要出现空格和'>>'-->
+    <property name="APP_NAME" value="email"/>
+    <!-- 按天生成日志文件，老项目改动麻烦的话可以先不用动，新项目按照此地址写日志 -->
+    <property name="LOG_HOME" value="/data/log/"/>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} ${APP_NAME} %level:>>%c %msg%n
+            </pattern>
+            <charset>
+                UTF-8
+            </charset>
+        </encoder>
+    </appender>
+    <appender name="timeFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_HOME}/log-${APP_NAME}%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <!-- 由于我们进行了日志收集，并且打印量大，所以只保留10天 -->
+            <maxHistory>
+                10
+            </maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!-- 如要记录业务数据（统计分析用）需在消息末尾加上‘>>’标记，后接json字符串，目前大数据平台只接收json形式的数据 -->
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss} ${APP_NAME} %level:>>%msg%n
+            </pattern>
+            <charset>
+                UTF-8
+            </charset>
+        </encoder>
+    </appender>
+
+    <appender name="asyncFile" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志,0尽量不丢失events -->
+        <discardingThreshold>0</discardingThreshold>
+        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+        <queueSize>2048</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <!-- 添加附加的appender,最多只能添加一个 -->
+        <appender-ref ref="timeFile"/>
+    </appender>
+
+    <!-- show sql  写入自己的mapper在路径 -->
+    <logger name="com.core.console.dao" level="info" additivity="true"/>
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <!-- 测试时打开标准输出，生产时关闭 -->
+        <appender-ref ref="asyncFile"/>
+    </root>
+
+</configuration>

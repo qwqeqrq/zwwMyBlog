@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.core.blog.dao.DouYuLiveDao">
+    <resultMap id="BaseResultMap" type="com.core.socket.DouyuDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="anchor" jdbcType="VARCHAR" property="anchor" />
+        <result column="live_number" jdbcType="VARCHAR" property="liveNumber" />
+        <result column="vim_number" jdbcType="VARCHAR" property="vimNumber" />
+        <result column="live_time" jdbcType="TIMESTAMP" property="liveTime" />
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.core.socket.DouyuDto">
+        insert into douyu_live
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="title != null">
+                title,
+            </if>
+            <if test="anchor != null">
+                anchor,
+            </if>
+            <if test="liveNumber != null">
+                live_number,
+            </if>
+            <if test="vimNumber != null">
+                vim_number,
+            </if>
+                live_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="anchor != null">
+                #{anchor,jdbcType=VARCHAR},
+            </if>
+            <if test="liveNumber != null">
+                #{liveNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vimNumber != null">
+                #{vimNumber,jdbcType=VARCHAR},
+            </if>
+            now()
+        </trim>
+    </insert>
+
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.core.socket.DouyuDto">
+        update douyu_live
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="anchor != null">
+                anchor = #{anchor,jdbcType=VARCHAR},
+            </if>
+            <if test="liveNumber != null">
+                live_number = #{liveNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="vimNumber != null">
+                vim_number = #{vimNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="liveTime != null">
+                live_time = #{liveTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>
