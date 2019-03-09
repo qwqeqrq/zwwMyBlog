@@ -32,7 +32,7 @@ public class RobotSendMessageController {
     @Scheduled(cron = "0 20 08 ? * *")
     public String robotSendMessage() {
         //String movie = movieServiceImplMovieService.getApiContent("").get("dingding");
-        String joke = "猴哥给你讲笑话：\n" + jokeiService.getApiContent("");
+        String joke =  jokeiService.getApiContentByDingDing("");
         List<String> atList = new ArrayList<>();
         try {
             //发送电影票房

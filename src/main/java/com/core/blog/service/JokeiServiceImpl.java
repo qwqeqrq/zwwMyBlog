@@ -31,4 +31,21 @@ public class JokeiServiceImpl implements GreatApiService {
         }
         return "";
     }
+    public String getApiContentByDingDing(String Url) {
+        Url = "http://api.djapi.cn/joke/get?token=297bf40efb7579c569f7ceb814b3d04d";
+        RestTemplate restTemplate = new RestTemplate();
+        Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
+        int cede = (int) resultMap.get("ErrorCode");
+        if (cede == 0) {
+            String jsonStr = JSONUtils.toJSONString(resultMap.get("Result"));
+            Map dataMap = JSON.parseObject(jsonStr, Map.class);
+            String jokeContent = dataMap.get("content").toString();
+            // StringBuilder stringBuilder = new StringBuilder(jokeContent);
+           /* jokeContent = jokeContent.replaceAll("，", "\n");
+            jokeContent = jokeContent.replaceAll("。", "\n");*/
+            String joke = "今日笑话（每天笑一下）:" + "\n" + jokeContent;
+            return joke;
+        }
+        return "";
+    }
 }
