@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-@EnableScheduling
-@ComponentScan("com.core")
+@EnableScheduling//开启定时任务
 @SpringBootApplication
 public class MyBlog {
 

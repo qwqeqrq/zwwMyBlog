@@ -317,7 +317,7 @@ public class DateUtil {
         try {
             Date date = formatter.parse(sj1);
             Date mydate = formatter.parse(sj2);
-            day = (date.getTime() - mydate.getTime()) / (24 * 60 * 60 * 1000) + 1;
+            day = (date.getTime() - mydate.getTime()) / (24 * 60 * 60 * 1000);
         } catch (Exception e) {
             return "";
         }

@@ -22,7 +22,7 @@ public class WeatherServiceImpl implements GreatApiService {
      * @param: [Url]
      * @return: java.lang.String
      * @auther: ZHANGWEI
-     * @date: 2018/12/14/00014 21:54
+     * @date: 2018/12/14/00014 21:54 计算春节剩余时间，2019年2月10日21:09:59更新为计算元宵节。 2019年3月30日01:40:22 更新为计算五一还有多久
      */
 
     public String getApiContent(String Url, String cityCode) {
@@ -30,7 +30,7 @@ public class WeatherServiceImpl implements GreatApiService {
         RestTemplate restTemplate = new RestTemplate();
         Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
         String nowDay = DateUtil.getStringDateShort();
-        String countDown = DateUtil.getTwoDay("2019-02-19", nowDay);//计算春节剩余时间，2019年2月10日21:09:59更新为计算元宵节。
+        String countDown = DateUtil.getTwoDay("2019-05-01", nowDay);//
         int cede = (int) resultMap.get("status");
         if (cede == 200) {
             String cityStr = JSONUtils.toJSONString(resultMap.get("cityInfo"));
@@ -61,7 +61,7 @@ public class WeatherServiceImpl implements GreatApiService {
                     String type = forecastMap.get("type").toString();
                     String notice = forecastMap.get("notice").toString();
                     String weather = "贴心天气------<br/>" + cityName + "天气" + "("
-                            + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "距离元宵佳节还有" + countDown + "天" + "<br/>"
+                            + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "距离今年劳动节还有" + countDown + "天" + "<br/>"
                             + "天气类型:" + type + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                             + "当前温度:" + wendu + "℃<br/>"
                             + "空气质量:" + quality + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
