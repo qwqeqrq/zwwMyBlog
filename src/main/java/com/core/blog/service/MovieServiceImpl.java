@@ -5,6 +5,8 @@ import com.aliyun.openservices.shade.com.alibaba.fastjson.JSON;
 
 
 import com.core.blog.uitls.HttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,10 +19,11 @@ import java.util.Map;
  * Created by zww on 2018-12-14.电影票房
  */
 @Service
-public class MovieServiceImpl  {
+public class MovieServiceImpl {
+    private static final Logger logger = LoggerFactory.getLogger(MovieServiceImpl.class);
 
-    public Map<String,String> getApiContent(String Url) {
-        Map<String,String> resultmap =new HashMap<>();
+    public Map<String, String> getApiContent(String Url) {
+        Map<String, String> resultmap = new HashMap<>();
         Url = "http://dianying.nuomi.com/movie/boxrefresh";
         RestTemplate restTemplate = new RestTemplate();
         //headers
@@ -69,12 +72,12 @@ public class MovieServiceImpl  {
                     stringBuilder.append(movie);
                     stringBuilder2.append(movie2);
                 }
-                resultmap.put("email",stringBuilder.toString());
-                resultmap.put("dingding",stringBuilder2.toString());
+                resultmap.put("email", stringBuilder.toString());
+                resultmap.put("dingding", stringBuilder2.toString());
                 return resultmap;
             }
         } catch (Exception e) {
-
+            logger.error("获取电影信息异常>>>>>>>>>>>>>>>>>>>"+e.getMessage());
         }
         return resultmap;
     }
@@ -95,9 +98,9 @@ public class MovieServiceImpl  {
     }
 
     public static String getDingDingNeatMovieName(String movieName, String attrName1, String attrValue1,
-                                          String attrName2, String attrValue2, String attrName3,
-                                          String attrValue3, String attrName4, String attrValue4,
-                                          int length) {
+                                                  String attrName2, String attrValue2, String attrName3,
+                                                  String attrValue3, String attrName4, String attrValue4,
+                                                  int length) {
         String sign = "\t";
         for (int i = 0; i < 2; i++) {
             sign += "\t";

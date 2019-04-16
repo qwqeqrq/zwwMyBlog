@@ -3,6 +3,8 @@ package com.core.blog.service;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.aliyun.openservices.shade.com.alibaba.fastjson.JSON;
 import org.omg.CORBA.NO_IMPLEMENT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,6 +16,7 @@ import java.util.Map;
  */
 @Service
 public class NovelServiceImpl implements GreatApiService {
+    private static final Logger logger = LoggerFactory.getLogger(NovelServiceImpl.class);
 
     /**
      * 功能描述: 热门小说推荐
@@ -27,7 +30,8 @@ public class NovelServiceImpl implements GreatApiService {
     public String getApiContent(String Url) {
         Url = "https://www.apiopen.top/novelApi";
         RestTemplate restTemplate = new RestTemplate();
-        Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
+     try {
+         Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
         int cede = (int) resultMap.get("code");
         if (cede == 200) {
             StringBuilder stringBuilder = new StringBuilder("<<<<<热门小说推荐>>>>>" + "<br/>");
@@ -45,7 +49,9 @@ public class NovelServiceImpl implements GreatApiService {
                 stringBuilder.append(novel);
             }
             return stringBuilder.toString();
-        }
+        }}catch (Exception e){
+         logger.error("获取小说失败>>>>>>>>>>>>>>>>>>>"+e.getMessage());
+     }
         return "";
     }
 }
