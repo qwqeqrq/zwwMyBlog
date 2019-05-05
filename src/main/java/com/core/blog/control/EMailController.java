@@ -3,6 +3,7 @@ package com.core.blog.control;
 import com.core.blog.service.*;
 import com.core.blog.uitls.EmailUtils;
 import com.core.console.po.UserBean;
+import com.core.console.service.EmailScheduleService;
 import com.core.console.service.UserService;
 import com.core.console.uitl.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class EMailController {
     @Autowired
     UserService userService;
 
+
     //@Scheduled(cron = "0 0/2 0 * * ?")
 //每两分钟执行
     @Scheduled(cron = "0 05 07 ? * *")
@@ -59,7 +61,7 @@ public class EMailController {
             String name = user.getUserName();//收件人姓名
             String cityCode = user.getCityCode();//城市编码
             String huangLi = huangLiService.getApiContent("");
-            String weather = weatherService.getApiContent("", cityCode);
+            String weather = weatherService.getApiContent("", cityCode,user.getUserId());
             String movie = movieService.getApiContent("").get("email");
             String news = newsApiService.getApiContent("");
             String novel = novelService.getApiContent("");

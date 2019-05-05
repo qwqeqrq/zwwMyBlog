@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class UserBean implements Serializable {
 
-    private Long userId;
+    private Integer userId;
 
     private String userCode;
 
@@ -35,11 +35,11 @@ public class UserBean implements Serializable {
         this.loginTime = loginTime;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

@@ -3,7 +3,7 @@ package com.core.blog.service;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.aliyun.openservices.shade.com.alibaba.fastjson.JSON;
 import com.core.blog.uitls.DateUtil;
-import com.core.console.dao.userdao.UserDao;
+import com.core.console.service.EmailScheduleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,9 @@ import java.util.Map;
 public class WeatherServiceImpl implements GreatApiService {
     private static final Logger logger = LoggerFactory.getLogger(WeatherServiceImpl.class);
 
+    @Autowired
+    private EmailScheduleService emailScheduleService;
+
     /**
      * 功能描述: 天气信息获取
      *
@@ -27,15 +30,26 @@ public class WeatherServiceImpl implements GreatApiService {
      * @return: java.lang.String
      * @auther: ZHANGWEI
      * @date: 2018/12/14/00014 21:54 计算春节剩余时间，2019年2月10日21:09:59更新为计算元宵节。 2019年3月30日01:40:22 更新为计算五一还有多久
+     * 2019年5月5日11:17:07 新增日程表 维护日期计算
      */
-
-    public String getApiContent(String Url, String cityCode) {
+    public String getApiContent(String Url, String cityCode, int userId) {
         Url = "http://t.weather.sojson.com/api/weather/city/" + cityCode;
         RestTemplate restTemplate = new RestTemplate();
+        String date = "2050-01-01";
+        String title = "赶紧去日程表添加吧";
         try {
             Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
             String nowDay = DateUtil.getStringDateShort();
-            String countDown = DateUtil.getTwoDay("2019-05-01", nowDay);//
+            Map map = emailScheduleService.getEmailSchedule(userId);
+            if (map != null && map.size() > 0) {
+                date = map.get("date").toString();
+                title = map.get("title").toString();
+            }
+            String countDown = DateUtil.getTwoDay(date, nowDay);//计算时间差
+            if ("0".equals(countDown)) {
+                int id = (int) map.get("id");
+                emailScheduleService.updateEmailSchedule(id);
+            }
             int cede = (int) resultMap.get("status");
             if (cede == 200) {
                 String cityStr = JSONUtils.toJSONString(resultMap.get("cityInfo"));
@@ -66,7 +80,7 @@ public class WeatherServiceImpl implements GreatApiService {
                         String type = forecastMap.get("type").toString();
                         String notice = forecastMap.get("notice").toString();
                         String weather = "贴心天气------<br/>" + cityName + "天气" + "("
-                                + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "距离今年劳动节还有" + countDown + "天" + "<br/>"
+                                + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + title + countDown + "天" + "<br/>"
                                 + "天气类型:" + type + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                                 + "当前温度:" + wendu + "℃<br/>"
                                 + "空气质量:" + quality + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -83,7 +97,6 @@ public class WeatherServiceImpl implements GreatApiService {
                                 + "天气建议:" + notice + "<br/>";
                         return weather;
                     }
-
                 }
                 return "";
             }
@@ -97,4 +110,5 @@ public class WeatherServiceImpl implements GreatApiService {
     public String getApiContent(String ApiUrl) throws Exception {
         return null;
     }
+
 }

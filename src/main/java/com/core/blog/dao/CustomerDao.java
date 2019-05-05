@@ -6,7 +6,8 @@ import com.core.blog.po.customer;
 @Mapper
 public interface CustomerDao {
 	
-	@Select("SELECT cust_id,cust_name,cust_user_id,cust_creat_id,cust_source, cust_industry,cust_level,  cust_limkman,cust_phone,cust_mobile,cust_zipcode,cust_address,cust_createtime FROM customer")
+	@Select("SELECT cust_id,cust_name,cust_user_id,cust_creat_id,cust_source, cust_industry,cust_level,  " +
+			"cust_limkman,cust_phone,cust_mobile,cust_zipcode,cust_address,cust_createtime FROM customer")
 	 List<customer>  findcustomer();
 	
 	@Select("select count(1) from customer")

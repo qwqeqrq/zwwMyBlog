@@ -4,14 +4,11 @@ import com.core.blog.po.Result;
 import com.core.console.po.UserBean;
 import com.core.console.service.UserService;
 import com.core.console.uitl.PageInfo;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -51,7 +48,7 @@ public class UserController {
         try {
             String userId = request.getParameter("userId");
             if (userId != null && !"".equals(userId)) {
-                userBean.setUserId(Long.parseLong(request.getParameter("userId")));
+                userBean.setUserId(Integer.valueOf(request.getParameter("userId")));
             }
             List<UserBean> list = userService.getUser(userBean, page);
             result.setCode(0);
