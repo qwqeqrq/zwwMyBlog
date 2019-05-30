@@ -33,7 +33,7 @@ public class WeatherServiceImpl implements GreatApiService {
      * 2019年5月5日11:17:07 新增日程表 维护日期计算
      */
     public String getApiContent(String Url, String cityCode, int userId) {
-        Url = "http://t.weather.sojson.com/api/weather/city/" + cityCode;
+        Url = "http://t.weather.itboy.net/api/weather/city/" + cityCode;
         RestTemplate restTemplate = new RestTemplate();
         String date = "2050-01-01";
         String title = "赶紧去日程表添加吧";
