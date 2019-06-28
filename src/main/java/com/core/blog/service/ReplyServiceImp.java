@@ -1,6 +1,6 @@
 package com.core.blog.service;
 
-import com.core.blog.dao.replydao.ReplyDao;
+import com.core.blog.mapper.replymapper.ReplyDao;
 import com.core.blog.po.ReplyBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

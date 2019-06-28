@@ -1,6 +1,6 @@
 package com.core.console.serviceimpl;
 
-import com.core.console.dao.userdao.UserDao;
+import com.core.console.mapper.usermapper.UserMapper;
 import com.core.console.po.UserBean;
 import com.core.console.service.UserService;
 import com.core.console.uitl.PageInfo;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class UserServiceImp implements UserService{
     @Autowired
-    UserDao userDao;
+    UserMapper userDao;
     @Override
     public List<UserBean> getUser(UserBean userBean , PageInfo page) {
         if(page!=null){

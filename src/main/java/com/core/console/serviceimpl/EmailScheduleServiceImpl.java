@@ -1,6 +1,6 @@
 package com.core.console.serviceimpl;
 
-import com.core.console.dao.emailscheduledao.EmailScheduleDao;
+import com.core.console.mapper.emailschedulemapper.EmailScheduleMapper;
 import com.core.console.service.EmailScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class EmailScheduleServiceImpl implements EmailScheduleService {
 
     @Autowired
-    private EmailScheduleDao emailScheduleDao;
+    private EmailScheduleMapper emailScheduleDao;
 
     @Override
     public Map<String, Object> getEmailSchedule(int userId) {

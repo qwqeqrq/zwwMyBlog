@@ -67,7 +67,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "login/{user}")
+    @RequestMapping(value = "login")
     public String doLogin(UserBean user, Model model) {
         String passWord = user.getUserPassword();
         user.setUserPassword("");

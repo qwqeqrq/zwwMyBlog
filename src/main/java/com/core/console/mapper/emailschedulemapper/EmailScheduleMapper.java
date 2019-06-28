@@ -1,4 +1,4 @@
-package com.core.console.dao.emailscheduledao;
+package com.core.console.mapper.emailschedulemapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by zww on 2019-05-05.
  */
 @Mapper
-public interface EmailScheduleDao {
+public interface EmailScheduleMapper {
 
     @Select("SELECT id id , title title, target_date date FROM `email_schedule` where deleted=0 and user_id =#{userId} ORDER BY createDate asc LIMIT 1")
     Map<String, Object> getEmailSchedule(@Param("userId") int userId);

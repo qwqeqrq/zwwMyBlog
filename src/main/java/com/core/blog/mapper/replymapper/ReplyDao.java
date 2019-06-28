@@ -1,4 +1,4 @@
-package com.core.blog.dao.replydao;
+package com.core.blog.mapper.replymapper;
 
 import com.core.blog.po.ReplyBean;
 import org.apache.ibatis.annotations.Mapper;

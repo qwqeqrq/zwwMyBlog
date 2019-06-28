@@ -5,7 +5,7 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
         url: jdbc:mysql://127.0.0.1:3306/mysql?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
-        password: 123456
+        password: root
         #url: jdbc:mysql://localhost:3306/mysql?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         #username: root
         #password: 123456
@@ -13,6 +13,17 @@ spring:
         cache: false
 mybatis:
     mapper-locations: classpath*:mybatis/mapper/*/*.xml
+
+#在控制台打印MySQL日志
+logging:
+    level:
+        com:
+            core:
+                blog:
+                    mapper: debug
+                console:
+                    mapper: debug
+#logging.level.自己的mapper包=日志级别
 
 wzurl: https://www.douyu.com/g_wzry
 lolurl: https://www.douyu.com/g_LOL

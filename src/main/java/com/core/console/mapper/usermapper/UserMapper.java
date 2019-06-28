@@ -1,4 +1,4 @@
-package com.core.console.dao.userdao;
+package com.core.console.mapper.usermapper;
 
 import com.core.console.po.UserBean;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,7 +13,7 @@ import java.util.List;
  * @Description:
  */
 @Mapper
-public interface UserDao {
+public interface UserMapper {
     List<UserBean> getUser (@Param("userBean") UserBean userBean ,@Param("startrow") Integer startRow,@Param("size") Integer size);
 
     @Select("select count(1) from sys_user")

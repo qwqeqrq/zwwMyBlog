@@ -1,4 +1,4 @@
-package com.core.blog.dao.articledao;
+package com.core.blog.mapper.articlemapper;
 
 import com.core.blog.po.ArticleBean;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,7 +12,7 @@ import java.util.List;
  * @Description:
  */
 @Mapper
-public interface ArticleDao {
+public interface ArticleMapper {
 
     //获取文章
     List<ArticleBean> getArticle (@Param("article") ArticleBean articleBean );

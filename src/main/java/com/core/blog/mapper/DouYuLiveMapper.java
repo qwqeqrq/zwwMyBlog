@@ -1,4 +1,4 @@
-package com.core.blog.dao;
+package com.core.blog.mapper;
 
 import com.core.socket.DouyuDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description:
  */
 @Mapper
-public interface DouYuLiveDao {
+public interface DouYuLiveMapper {
     int insert(DouyuDto douyuDto);
 }

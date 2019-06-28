@@ -1,6 +1,6 @@
 package com.core.blog.service;
 
-import com.core.blog.dao.DouYuLiveDao;
+import com.core.blog.mapper.DouYuLiveMapper;
 import com.core.socket.DouyuDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class DouYuLiveDtoImp implements DouYuLiveService {
     @Autowired
-    DouYuLiveDao douYuLiveDao;
+    DouYuLiveMapper douYuLiveDao;
     @Value("${wzurl}")
     private String wzurl;
     @Value("${lolurl}")

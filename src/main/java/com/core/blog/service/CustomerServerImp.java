@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.core.blog.dao.CustomerDao;
+import com.core.blog.mapper.CustomerMapper;
 import com.core.blog.po.customer;
 
 @Service
 public class CustomerServerImp implements CustomerServer {
 @Autowired
-	private CustomerDao customer;
+	private CustomerMapper customer;
 	@Override
 	public List<customer> findcustomer() {
 		// TODO Auto-generated method stub

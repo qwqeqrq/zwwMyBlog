@@ -46,7 +46,7 @@
     </appender>
 
     <!-- show sql  写入自己的mapper在路径 -->
-    <logger name="com.core.console.dao" level="info" additivity="true"/>
+    <logger name="com.core.console.mapper" level="info" additivity="true"/>
     <root level="info">
         <appender-ref ref="stdout"/>
         <!-- 测试时打开标准输出，生产时关闭 -->
