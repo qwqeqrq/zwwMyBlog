@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "login")
-    public String doLogin(UserBean user, Model model) {
+    public String doLogin(UserBean user, Model model, HttpServletRequest httpServletRequest) {
         String passWord = user.getUserPassword();
         user.setUserPassword("");
         Result result = new Result();
@@ -77,6 +77,7 @@ public class UserController {
             if (userBeanList.get(0).getUserPassword().equals(passWord)) {
                 result.setCode(0);
                 model.addAttribute("result", result);
+                httpServletRequest.getSession().setAttribute("userId",userBeanList.get(0).getUserId());
                 return "index";
             } else {
                 result.setCode(-1);
