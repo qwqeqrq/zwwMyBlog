@@ -11,6 +11,10 @@ import java.util.List;
  * @Description:
  */
 public interface UserService {
-    List<UserBean> getUser(UserBean userBean,PageInfo pageInfo);
-    int getUserCount ();
+
+    List<UserBean> getUser(UserBean userBean, PageInfo pageInfo);
+
+    int getUserCount();
+
+    Integer updateUser(UserBean userBean);
 }

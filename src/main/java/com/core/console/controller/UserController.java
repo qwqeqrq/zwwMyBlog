@@ -1,9 +1,12 @@
 package com.core.console.controller;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.core.blog.po.Result;
 import com.core.console.po.UserBean;
 import com.core.console.service.UserService;
 import com.core.console.uitl.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/sys")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     //用户管理类
     @Autowired
     UserService userService;
@@ -29,7 +33,7 @@ public class UserController {
     public String getUser(HttpServletRequest request, PageInfo page, Model model) {
         /**
          *
-         * 功能描述: 根据用户id获取系统用户信息
+         * 功能描述: 根据用户id获取系统用户信息 用户管理列表
          *
          * @param: [request]
          * @return: java.util.List<com.core.console.po.UserBean>
@@ -59,6 +63,7 @@ public class UserController {
             return "user";
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(JSONUtils.toJSONString(e));
             result.setCode(-1);
             result.setData(null);
             result.setMsg("服务异常！请求失败");
@@ -67,30 +72,45 @@ public class UserController {
         }
     }
 
+    /**
+     * @描述： 登录验证接口
+     * @参数：
+     * @返回值：
+     * @创建人： zhangww
+     * @创建时间： 2019-06-28
+     * @修改人和其它信息：
+     */
     @RequestMapping(value = "login")
     public String doLogin(UserBean user, Model model, HttpServletRequest httpServletRequest) {
-        String passWord = user.getUserPassword();
-        user.setUserPassword("");
-        Result result = new Result();
-        List<UserBean> userBeanList = userService.getUser(user, null);
-        if (userBeanList != null && !userBeanList.isEmpty()) {
-            if (userBeanList.get(0).getUserPassword().equals(passWord)) {
-                result.setCode(0);
-                model.addAttribute("result", result);
-                httpServletRequest.getSession().setAttribute("userId",userBeanList.get(0).getUserId());
-                return "index";
+
+        try {
+            String passWord = user.getUserPassword();
+            user.setUserPassword("");
+            Result result = new Result();
+            List<UserBean> userBeanList = userService.getUser(user, null);
+            if (userBeanList != null && !userBeanList.isEmpty()) {
+                if (userBeanList.get(0).getUserPassword().equals(passWord)) {
+                    result.setCode(0);
+                    model.addAttribute("result", result);
+                    httpServletRequest.getSession().setAttribute("userId", userBeanList.get(0).getUserId());
+                    userService.updateUser(userBeanList.get(0));
+                    return "index";
+                } else {
+                    result.setCode(-1);
+                    result.setMsg("用户名或者密码错误！");
+                    model.addAttribute("result", result);
+                    return "login";
+                }
             } else {
                 result.setCode(-1);
-                result.setMsg("用户名或者密码错误！");
+                result.setMsg("用户不存在！");
                 model.addAttribute("result", result);
                 return "login";
             }
-        }else {
-            result.setCode(-1);
-            result.setMsg("用户不存在！");
-            model.addAttribute("result", result);
-            return "login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(JSONUtils.toJSONString(e));
         }
-
+        return "系统维护中！！！敬请谅解";
     }
 }
