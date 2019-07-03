@@ -4,6 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.core.blog.po.Result;
 import com.core.console.po.UserBean;
 import com.core.console.service.UserService;
+import com.core.console.uitl.IpTools;
 import com.core.console.uitl.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +83,7 @@ public class UserController {
      */
     @RequestMapping(value = "login")
     public String doLogin(UserBean user, Model model, HttpServletRequest httpServletRequest) {
-
+        logger.info(">>>>>>>>>>>>>>>>>>>>>>>访问者ip:" + IpTools.getIpAddress(httpServletRequest));
         try {
             String passWord = user.getUserPassword();
             user.setUserPassword("");
