@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class LogConfig {
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Pointcut("execution(* com.bfdl.*.controller..*.*(..))")
+    @Pointcut("execution(* com.core.*.controller..*.*(..))")
     public void logPointcut(){
     }
 
