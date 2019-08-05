@@ -22,7 +22,7 @@ public interface UserMapper {
 
     @Update("<script> update  sys_user <set> <if test=\"userBean.userName!=null\"> user_name = #{userBean.userName}, " +
             "</if> <if test=\"userBean.userPassword!=null\"> user_password = #{userBean.userPassword}, </if> " +
-            "<if test=\"userBean.userState!=0\"> user_state = #{userBean.userState}, </if> " +
+            "<if test=\"userBean.userState!=0 and userBean.userState!=null\"> user_state = #{userBean.userState}, </if> " +
             "<if test=\"userBean.email !=null \"> " +
             "email=#{userBean.email}, </if> login_time = now() </set>  where user_id =#{userBean.userId}  </script>")
     Integer updateUser(@Param("userBean") UserBean userBean);
