@@ -94,7 +94,9 @@ public class UserController {
                     result.setCode(0);
                     model.addAttribute("result", result);
                     httpServletRequest.getSession().setAttribute("userId", userBeanList.get(0).getUserId());
-                    userService.updateUser(userBeanList.get(0));
+                    UserBean userBean = new UserBean();
+                    userBean.setUserId(userBeanList.get(0).getUserId());
+                    userService.updateUser(userBean);
                     return "index";
                 } else {
                     result.setCode(-1);
