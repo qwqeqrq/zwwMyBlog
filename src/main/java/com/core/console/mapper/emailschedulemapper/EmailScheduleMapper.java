@@ -13,10 +13,10 @@ import java.util.Map;
 @Mapper
 public interface EmailScheduleMapper {
 
-    @Select("SELECT id id , title title, target_date date FROM `email_schedule` where deleted=0 and user_id =#{userId} ORDER BY createDate asc LIMIT 1")
+    @Select("SELECT id id , title title, target_date date FROM `email_schedule` where deleted=0 and user_id =#{userId} ORDER BY sort asc LIMIT 1")
     Map<String, Object> getEmailSchedule(@Param("userId") int userId);
 
-    @Update("update email_schedule set deleted=1 where id = #{id} ")
+    @Update("update email_schedule set deleted=1 ,updateDate = now() where id = #{id} ")
     Integer updateEmailSchedule(@Param("id") int id);
 
 }
