@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class MovieServiceImpl {
 
     public Map<String, String> getApiContent(String Url) {
         Map<String, String> resultmap = new HashMap<>();
-        Url = "http://dianying.nuomi.com/movie/boxrefresh";
+        Url = "https://box.maoyan.com/promovie/api/box/second.json";
         RestTemplate restTemplate = new RestTemplate();
         //headers
         Map<String, String> headers = new HashMap<>();
@@ -40,76 +41,42 @@ public class MovieServiceImpl {
         try {
             String re = HttpClient.doGet(Url, headers, params);
             Map map = JSON.parseObject(re, Map.class);
-            String realStr = JSONUtils.toJSONString(map.get("real"));
-            Map realMap = JSON.parseObject(realStr, Map.class);
-            int cede = (int) realMap.get("errorNo");
-            if (cede == 0) {
-                StringBuilder stringBuilder = new StringBuilder("<<<<<最近电影票房信息>>>>>");
-                StringBuilder stringBuilder2 = new StringBuilder("<<<<<最近电影票房信息>>>>>");
-                String dataStr = JSONUtils.toJSONString(realMap.get("data"));
-                Map dataMap = JSON.parseObject(dataStr, Map.class);
-                String detailStr = JSONUtils.toJSONString(dataMap.get("detail"));
-                List dataList = JSON.parseObject(detailStr, List.class);
+            boolean result = (boolean) map.get("success");
+            Map dataMap = JSON.parseObject(JSONUtils.toJSONString(map.get("data")), Map.class);
+            if (result) {
+                String dataListString = JSONUtils.toJSONString(dataMap.get("list"));
+                ArrayList dataList = JSON.parseObject(dataListString, ArrayList.class);
+                StringBuilder stringBuilder = new StringBuilder("<<<<<今日电影票房信息>>>>>");
                 for (Object forecast : dataList) {
                     Map detailMap = JSON.parseObject(forecast.toString(), Map.class);
                     String movieName = detailMap.get("movieName").toString();
-                    Map author_name = JSON.parseObject(JSONUtils.toJSONString(detailMap.get("attribute")), Map.class);
-                    Map map1 = JSON.parseObject(JSONUtils.toJSONString(author_name.get("1")), Map.class);
-                    Map map2 = JSON.parseObject(JSONUtils.toJSONString(author_name.get("2")), Map.class);
-                    Map map3 = JSON.parseObject(JSONUtils.toJSONString(author_name.get("3")), Map.class);
-                    Map map4 = JSON.parseObject(JSONUtils.toJSONString(author_name.get("4")), Map.class);
-                    String attrName1 = map1.get("attrName").toString();
-                    String attrValue1 = map1.get("attrValue").toString();
-                    String attrName2 = map2.get("attrName").toString();
-                    String attrValue2 = map2.get("attrValue").toString();
-                    String attrName3 = map3.get("attrName").toString();
-                    String attrValue3 = map3.get("attrValue").toString();
-                    String attrName4 = map4.get("attrName").toString();
-                    String attrValue4 = map4.get("attrValue").toString();
+                    String attrValue1 = detailMap.get("releaseInfo").toString();//上映天数
+                    String attrValue2 = detailMap.get("boxInfo").toString();//综合票房
+                    String attrValue3 = detailMap.get("boxRate").toString();//票房占比
+                    String attrValue4 = detailMap.get("avgSeatView").toString();//上坐率
                     int nameLeng = movieName.length();
-                    String movie = getNeatMovieName(movieName, attrName1, attrValue1, attrName2, attrValue2, attrName3, attrValue3, attrName4, attrValue4, nameLeng);
-                    String movie2 = getDingDingNeatMovieName(movieName, attrName1, attrValue1, attrName2, attrValue2, attrName3, attrValue3, attrName4, attrValue4, nameLeng);
+                    String movie = getNeatMovieName(movieName, attrValue1, attrValue2, attrValue3, attrValue4, nameLeng);
                     stringBuilder.append(movie);
-                    stringBuilder2.append(movie2);
                 }
                 resultmap.put("email", stringBuilder.toString());
-                resultmap.put("dingding", stringBuilder2.toString());
                 return resultmap;
             }
         } catch (Exception e) {
-            logger.error("获取电影信息异常>>>>>>>>>>>>>>>>>>>"+e.getMessage());
+            logger.error("获取电影信息异常>>>>>>>>>>>>>>>>>>>" + e.getMessage());
         }
         return resultmap;
     }
 
-    public static String getNeatMovieName(String movieName, String attrName1, String attrValue1,
-                                          String attrName2, String attrValue2, String attrName3,
-                                          String attrValue3, String attrName4, String attrValue4,
-                                          int length) {
+    public static String getNeatMovieName(String movieName, String attrValue1, String attrValue2,
+                                          String attrValue3, String attrValue4, int length) {
         String sign = "&nbsp;";
         for (int i = 0; i < 6; i++) {
             sign += "&nbsp;";
         }
-        return "<br/>电影名：" + movieName + sign + attrName1 + ":" + attrValue1 + "<br/>"
-                + attrName2 + ":" + attrValue2 + "&nbsp;&nbsp;&nbsp;"
-                + attrName3 + ":" + attrValue3 + "<br/>"
-                + attrName4 + ":" + attrValue4 + "<br/><br/>";
+        return "<br/>电影名：" + movieName + sign + "上映时间" + ":" + attrValue1 + "<br/>"
+                + "综合票房" + ":" + attrValue2 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                "票房占比:" + attrValue3 + "<br/>" +
+                "上坐率" + attrValue4 + "&nbsp;&nbsp;<br/><br/>";
 
     }
-
-    public static String getDingDingNeatMovieName(String movieName, String attrName1, String attrValue1,
-                                                  String attrName2, String attrValue2, String attrName3,
-                                                  String attrValue3, String attrName4, String attrValue4,
-                                                  int length) {
-        String sign = "\t";
-        for (int i = 0; i < 2; i++) {
-            sign += "\t";
-        }
-        return "\n电影名：" + movieName + sign + attrName1 + ":" + attrValue1 + "\n"
-                + attrName2 + ":" + attrValue2 + "\t"
-                + attrName3 + ":" + attrValue3 + "\n"
-                + attrName4 + ":" + attrValue4 + "\n";
-
-    }
-
 }
