@@ -34,7 +34,7 @@ public class MovieServiceImpl {
         headers.put("Cache-Control", "max-age=0");
         headers.put("Accept-Language", "zh-CN,zh;q=0.9");
         headers.put("Connection", "keep-alive");
-        headers.put("Host", "dianying.nuomi.com");
+        headers.put("Host", "box.maoyan.com");//换为猫眼地址
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36");
         //params
         Map<String, String> params = new HashMap<>();
