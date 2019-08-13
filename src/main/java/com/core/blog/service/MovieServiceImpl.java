@@ -51,7 +51,7 @@ public class MovieServiceImpl {
                     Map detailMap = JSON.parseObject(forecast.toString(), Map.class);
                     String movieName = detailMap.get("movieName").toString();
                     String attrValue1 = detailMap.get("releaseInfo").toString();//上映天数
-                    String attrValue2 = detailMap.get("boxInfo").toString();//综合票房
+                    String attrValue2 = detailMap.get("sumBoxInfo").toString();//总票房数
                     String attrValue3 = detailMap.get("boxRate").toString();//票房占比
                     String attrValue4 = detailMap.get("avgSeatView").toString();//上坐率
                     int nameLeng = movieName.length();
@@ -74,7 +74,7 @@ public class MovieServiceImpl {
             sign += "&nbsp;";
         }
         return "<br/>电影名：" + movieName + sign + "上映时间" + ":" + attrValue1 + "<br/>"
-                + "综合票房" + ":" + attrValue2 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                + "票 房" + ":" + attrValue2 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
                 "票房占比:" + attrValue3 + "<br/>" +
                 "上坐率" + attrValue4 + "&nbsp;&nbsp;<br/><br/>";
 
