@@ -9,10 +9,12 @@ import com.core.console.uitl.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.List;
-
 
 
 /**
@@ -23,7 +25,8 @@ import java.util.List;
  * @auther: ZHANGWEI
  * @date: 2018/12/13/00013 21:31
  */
-@Component
+@RestController
+@RequestMapping("/Email")
 public class EMailController {
     @Autowired
     HuangLiServiceImpl huangLiService;
@@ -40,12 +43,19 @@ public class EMailController {
     @Autowired
     UserService userService;
 
-
+    /**
+     * @描述： 每天早上定时发送订阅邮件
+     * @参数： []
+     * @返回值： java.lang.String
+     * @创建人： zhangww
+     * @创建时间： 2019-08-13
+     * @修改人和其它信息：
+     */
     //@Scheduled(cron = "0 0/2 0 * * ?")
 //每两分钟执行
     @Scheduled(cron = "0 05 07 ? * *")
     //每天早上6点触发
-    String sendEmail() {
+    private String sendEmail() {
         UserBean userBean = new UserBean();
         PageInfo pageInfo = new PageInfo();
         int count = 0;//记录次数
@@ -61,7 +71,7 @@ public class EMailController {
             String name = user.getUserName();//收件人姓名
             String cityCode = user.getCityCode();//城市编码
             String huangLi = huangLiService.getApiContent("");
-            String weather = weatherService.getApiContent("", cityCode,user.getUserId());
+            String weather = weatherService.getApiContent("", cityCode, user.getUserId());
             String movie = movieService.getApiContent("").get("email");
             String news = newsApiService.getApiContent("");
             String novel = novelService.getApiContent("");
@@ -87,5 +97,12 @@ public class EMailController {
             count += 1;
         }
         return "发送成功";
+    }
+
+    //恶搞他们点击退订
+
+    @RequestMapping(value = "/unsubscribe")
+    public String unsubscribe() {
+        return "你点个牛蛙锤子！！！";
     }
 }

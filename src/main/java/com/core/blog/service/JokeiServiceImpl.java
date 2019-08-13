@@ -15,47 +15,50 @@ import java.util.Map;
 @Service
 public class JokeiServiceImpl implements GreatApiService {
     private static final Logger logger = LoggerFactory.getLogger(JokeiServiceImpl.class);
+
     @Override
     public String getApiContent(String Url) {
         Url = "http://api.djapi.cn/joke/get?token=297bf40efb7579c569f7ceb814b3d04d";
-      try {
-          RestTemplate restTemplate = new RestTemplate();
-          Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
-          int cede = (int) resultMap.get("ErrorCode");
-          if (cede == 0) {
-              String jsonStr = JSONUtils.toJSONString(resultMap.get("Result"));
-              Map dataMap = JSON.parseObject(jsonStr, Map.class);
-              String jokeContent = dataMap.get("content").toString();
-              // StringBuilder stringBuilder = new StringBuilder(jokeContent);
-              jokeContent = jokeContent.replaceAll("，", "<br/>");
-              jokeContent = jokeContent.replaceAll("。", "<br/>");
-              String joke = "今日笑话（每天笑一下）:" + "<br/>" + jokeContent;
-              return joke;
-          }
-      }catch (Exception e){
-          logger.error("获取笑话异常>>>>>>>>>>>>>>>>>"+e.getMessage());
-      }
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
+            int cede = (int) resultMap.get("ErrorCode");
+            if (cede == 0) {
+                String jsonStr = JSONUtils.toJSONString(resultMap.get("Result"));
+                Map dataMap = JSON.parseObject(jsonStr, Map.class);
+                String jokeContent = dataMap.get("content").toString();
+                // StringBuilder stringBuilder = new StringBuilder(jokeContent);
+                jokeContent = jokeContent.replaceAll("，", "<br/>");
+                jokeContent = jokeContent.replaceAll("。", "<br/>");
+                String joke = "今日笑话（每天笑一下）:" + "<br/>" + jokeContent + "<br/>" +
+                        "<a href=\"" + "http://47.104.175.49/Email/unsubscribe" + "\">" + "退订请点击" + "</a><br/>";
+                return joke;
+            }
+        } catch (Exception e) {
+            logger.error("获取笑话异常>>>>>>>>>>>>>>>>>" + e.getMessage());
+        }
         return "";
     }
+
     public String getApiContentByDingDing(String Url) {
         Url = "http://api.djapi.cn/joke/get?token=297bf40efb7579c569f7ceb814b3d04d";
-       try {
-           RestTemplate restTemplate = new RestTemplate();
-           Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
-           int cede = (int) resultMap.get("ErrorCode");
-           if (cede == 0) {
-               String jsonStr = JSONUtils.toJSONString(resultMap.get("Result"));
-               Map dataMap = JSON.parseObject(jsonStr, Map.class);
-               String jokeContent = dataMap.get("content").toString();
-               // StringBuilder stringBuilder = new StringBuilder(jokeContent);
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
+            int cede = (int) resultMap.get("ErrorCode");
+            if (cede == 0) {
+                String jsonStr = JSONUtils.toJSONString(resultMap.get("Result"));
+                Map dataMap = JSON.parseObject(jsonStr, Map.class);
+                String jokeContent = dataMap.get("content").toString();
+                // StringBuilder stringBuilder = new StringBuilder(jokeContent);
            /* jokeContent = jokeContent.replaceAll("，", "\n");
             jokeContent = jokeContent.replaceAll("。", "\n");*/
-               String joke = "今日笑话（每天笑一下）:" + "\n" + jokeContent;
-               return joke;
-           }
-       }catch (Exception e){
-           logger.error("获取笑话异常57行>>>>>>>>>>>>>>>>>>>>>>"+e.getMessage());
-       }
+                String joke = "今日笑话（每天笑一下）:" + "\n" + jokeContent;
+                return joke;
+            }
+        } catch (Exception e) {
+            logger.error("获取笑话异常57行>>>>>>>>>>>>>>>>>>>>>>" + e.getMessage());
+        }
         return "";
     }
 }
