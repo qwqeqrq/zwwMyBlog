@@ -5,7 +5,10 @@ import com.core.blog.uitls.EmailUtils;
 import com.core.console.po.UserBean;
 import com.core.console.service.EmailScheduleService;
 import com.core.console.service.UserService;
+import com.core.console.uitl.IpTools;
 import com.core.console.uitl.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -28,6 +32,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/Email")
 public class EMailController {
+
+    private static final Logger logger = LoggerFactory.getLogger(EMailController.class);
+
     @Autowired
     HuangLiServiceImpl huangLiService;
     @Autowired
@@ -102,7 +109,8 @@ public class EMailController {
     //恶搞他们点击退订
 
     @RequestMapping(value = "/unsubscribe")
-    public String unsubscribe() {
+    public String unsubscribe(HttpServletRequest httpServletRequest) {
+        logger.info("========================点退订者ip" + IpTools.getIpAddress(httpServletRequest) + "======================");
         return "你点个牛蛙锤子！！！";
     }
 }
