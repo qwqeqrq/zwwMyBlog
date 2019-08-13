@@ -45,7 +45,7 @@
                 and  user_state = #{userBean.userState}
             </if>
         </where>
-        order by login_time DESC
+        order by user_id DESC ,login_time DESC
         <if test="size != null and size &gt; 0">limit #{startrow},#{size}</if>
     </select>
 
