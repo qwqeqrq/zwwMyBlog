@@ -30,8 +30,8 @@ public class JokeiServiceImpl implements GreatApiService {
                 // StringBuilder stringBuilder = new StringBuilder(jokeContent);
                 jokeContent = jokeContent.replaceAll("，", "<br/>");
                 jokeContent = jokeContent.replaceAll("。", "<br/>");
-                String joke = "今日笑话（每天笑一下）:" + "<br/>" + jokeContent + "<br/>" +
-                        "<a href=\"" + "http://47.104.175.49/Email/unsubscribe" + "\">" + "退订请点击" + "</a><br/>";
+                String joke = "今日笑话（每天笑一下）:" + "<br/>" + jokeContent + "<br/><br/><br/><br/>" +
+                        "<a href=\"" + "http://47.104.175.49/Email/unsubscribe" + "\">" + "退订邮件" + "</a><br/>";
                 return joke;
             }
         } catch (Exception e) {
