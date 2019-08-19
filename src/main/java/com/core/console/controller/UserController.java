@@ -6,6 +6,7 @@ import com.core.blog.uitls.StringUtils;
 import com.core.console.po.UserBean;
 import com.core.console.service.UserService;
 import com.core.console.uitl.IpTools;
+import com.core.console.uitl.Md5Util;
 import com.core.console.uitl.PageInfo;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.slf4j.Logger;
@@ -90,7 +91,7 @@ public class UserController {
         //httpServletResponse.setContentType("text/html;charset=utf-8");
         Result result = new Result();
         try {
-            if (checkUserCodeisEmpty(user)){
+            if (checkUserCodeisEmpty(user)) {
                 logger.info("=================空用户名密码在刷新登录页================");
                 result.setCode(0);
                 model.addAttribute("result", result);
@@ -100,7 +101,7 @@ public class UserController {
             user.setUserPassword("");
             List<UserBean> userBeanList = userService.getUser(user, null);
             if (userBeanList != null && !userBeanList.isEmpty()) {
-                if (userBeanList.get(0).getUserPassword().equals(passWord)) {
+                if (Md5Util.encryption(passWord).equals(userBeanList.get(0).getUserPassword())) {
                     result.setCode(0);
                     model.addAttribute("result", result);
                     httpServletRequest.getSession().setAttribute("userId", userBeanList.get(0).getUserId());
