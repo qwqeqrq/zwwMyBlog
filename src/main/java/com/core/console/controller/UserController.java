@@ -8,7 +8,6 @@ import com.core.console.service.UserService;
 import com.core.console.uitl.IpTools;
 import com.core.console.uitl.Md5Util;
 import com.core.console.uitl.PageInfo;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
