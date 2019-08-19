@@ -110,7 +110,7 @@ public class EMailController {
 
     @RequestMapping(value = "/unsubscribe")
     public String unsubscribe(HttpServletRequest httpServletRequest) {
-        logger.info("========================点退订者ip" + IpTools.getIpAddress(httpServletRequest) + "======================");
+        logger.info("========================点退订者ip" + IpTools.getIPCity(IpTools.getIpAddress(httpServletRequest)) + "======================");
         return "你点个牛蛙锤子！！！";
     }
 }

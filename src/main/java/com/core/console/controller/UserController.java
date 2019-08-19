@@ -86,7 +86,7 @@ public class UserController {
      */
     @RequestMapping(value = "login")
     public String doLogin(UserBean user, Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        logger.info(">>>>>>>>>>>>>>>>>>>>>>>访问者ip:" + IpTools.getIpAddress(httpServletRequest));
+        logger.info(">>>>>>>>>>>>>>>>>>>>>>>访问者ip来源:" + IpTools.getIPCity(IpTools.getIpAddress(httpServletRequest)));
         //httpServletResponse.setContentType("text/html;charset=utf-8");
         Result result = new Result();
         try {
