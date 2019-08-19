@@ -3,7 +3,7 @@ package com.core.console.po;
 import java.io.Serializable;
 
 /**
- * Created by zww on 2019-08-19.ip地区类
+ * Created by zww on 2019-08-19.ip地区类 淘宝查ip之后未被使用
  */
 public class IPCity implements Serializable {
 
