@@ -10,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +23,8 @@ public class MovieServiceImpl {
 
     public Map<String, String> getApiContent(String Url) {
         Map<String, String> resultmap = new HashMap<>();
-        Url = "https://box.maoyan.com/promovie/api/box/second.json";
+        //Url = "https://box.maoyan.com/promovie/api/box/second.json";//2019年9月25日10:56:08 换了域名
+        Url = "http://piaofang.maoyan.com/second-box";
         RestTemplate restTemplate = new RestTemplate();
         //headers
         Map<String, String> headers = new HashMap<>();
@@ -34,7 +33,7 @@ public class MovieServiceImpl {
         headers.put("Cache-Control", "max-age=0");
         headers.put("Accept-Language", "zh-CN,zh;q=0.9");
         headers.put("Connection", "keep-alive");
-        headers.put("Host", "box.maoyan.com");//换为猫眼地址
+        headers.put("Host", "piaofang.maoyan.com");//换为猫眼地址
         headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36");
         //params
         Map<String, String> params = new HashMap<>();
@@ -67,8 +66,8 @@ public class MovieServiceImpl {
         return resultmap;
     }
 
-    public static String getNeatMovieName(String movieName, String attrValue1, String attrValue2,
-                                          String attrValue3, String attrValue4, int length) {
+    private String getNeatMovieName(String movieName, String attrValue1, String attrValue2,
+                                    String attrValue3, String attrValue4, int length) {
         String sign = "&nbsp;";
         for (int i = 0; i < 6; i++) {
             sign += "&nbsp;";
@@ -79,4 +78,9 @@ public class MovieServiceImpl {
                 "上坐率" + attrValue4 + "&nbsp;&nbsp;<br/><br/>";
 
     }
+
+   /* public static void main(String[] args) {
+        Map<String, String> resultmap = new MovieServiceImpl().getApiContent("");
+        System.out.println(resultmap.get("email"));
+    }*/
 }
