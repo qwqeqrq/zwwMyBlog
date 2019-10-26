@@ -1,7 +1,10 @@
 package com.core.blog.control;
 
 
+import com.alibaba.fastjson.JSON;
 import com.core.blog.uitls.DingDingMessageBeanUiti;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,8 @@ import com.core.blog.service.*;
 @RestController
 @RequestMapping(value = "dingding")
 public class RobotSendMessageController {
+
+    private static final Logger logger = LoggerFactory.getLogger(RobotSendMessageController.class);
 
     @Autowired
     private MovieServiceImpl movieServiceImplMovieService;
@@ -40,7 +45,7 @@ public class RobotSendMessageController {
             //笑话
             dingDingMessageBeanUiti.sendMessageUtil(false, joke, atList);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("钉钉笑话异常请速速查看"+JSON.toJSONString(e));
         }
         return "钉钉程序执行完毕";
     }

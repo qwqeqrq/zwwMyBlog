@@ -39,7 +39,7 @@ mailhost: smtp.163.com
 mailauthname: zhangwforever@163.com
 mailauthpassword: 1q2w3e4r
 mailsmtptimeout: 10000
-dingDingRobotUrl: https://oapi.dingtalk.com/robot/send?access_token=82f3de8e78c2bb1284f844603b2de46f65b22e2ef33ad7d173975cbdb5733703
+dingDingRobotUrl: https://oapi.dingtalk.com/robot/send?access_token=31fa0a0c2d423b61abc6f150920605ab5ad2de20e694c071b82cf4dbd937d3f8
 telphone1: 18829288843
 telphone2: 18729086497
 
