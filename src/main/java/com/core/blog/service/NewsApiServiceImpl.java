@@ -22,26 +22,23 @@ public class NewsApiServiceImpl implements GreatApiService {
      * @参数：
      * @返回值：
      * @创建人： zhangww
-     * @创建时间： 2018-12-14
+     * @创建时间： 2018-12-14 2019年11月11日09:15:36 修改了url
      * @修改人和其它信息：
      */
     //@Override
     public String getApiContent(String ApiUrl) {
-        ApiUrl = "https://www.apiopen.top/journalismApi";
+        ApiUrl = "https://api.apiopen.top/getWangYiNews";
         StringBuilder newStringBuffer = new StringBuilder("【一觉醒来发生了什么】<br/>");
         try {
             RestTemplate restTemplate = new RestTemplate();
             Map<String, Object> resultMap = restTemplate.getForEntity(ApiUrl, Map.class).getBody();
             int code = (int) resultMap.get("code");
             if (code == 200) {
-                Object newJsonObj = resultMap.get("data");
-                String newMapStr = JSONUtils.toJSONString(newJsonObj);
-                Map<String, List> newMap = JSON.parseObject(newMapStr, Map.class);
-                List linkedHashMaps = newMap.get("toutiao");
+                List linkedHashMaps = (List) resultMap.get("result");
                 for (Object map : linkedHashMaps) {
                     Map remap = JSON.parseObject(map.toString(), Map.class);
                     String title = remap.get("title").toString();//标题
-                    String link = remap.get("link").toString();//连接
+                    String link = remap.get("path").toString();//连接
                     String newString = "<a href=\"" + link + "\">" + title + "</a><br/>";
                     newStringBuffer.append(newString);
                 }
@@ -50,7 +47,7 @@ public class NewsApiServiceImpl implements GreatApiService {
                 //发送邮件给自己，提示新闻接口异常
             }
         } catch (Exception e) {
-            logger.error("获取新闻异常！！>>>>>>>>>>>>>>>>>>>>"+e.getMessage());
+            logger.error("获取新闻异常！！>>>>>>>>>>>>>>>>>>>>" + e.getMessage());
         }
         return null;
     }
