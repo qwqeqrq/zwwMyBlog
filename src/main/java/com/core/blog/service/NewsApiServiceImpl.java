@@ -36,7 +36,7 @@ public class NewsApiServiceImpl implements GreatApiService {
             if (code == 200) {
                 List linkedHashMaps = (List) resultMap.get("result");
                 for (Object map : linkedHashMaps) {
-                    Map remap = JSON.parseObject(map.toString(), Map.class);
+                    Map remap = (Map) map;
                     String title = remap.get("title").toString();//标题
                     String link = remap.get("path").toString();//连接
                     String newString = "<a href=\"" + link + "\">" + title + "</a><br/>";
