@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.*;
 
 
 /**
@@ -49,6 +50,9 @@ public class EMailController {
     JokeiServiceImpl jokeiService;
     @Autowired
     UserService userService;
+    //异步处理线程池
+    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1,
+            10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
 
     /**
      * @描述： 每天早上定时发送订阅邮件
@@ -61,6 +65,7 @@ public class EMailController {
     //@Scheduled(cron = "0 0/2 0 * * ?")
 //每两分钟执行
     @Scheduled(cron = "0 05 07 ? * *")
+
     //每天早上6点触发
     private String sendEmail() {
         UserBean userBean = new UserBean();
@@ -81,7 +86,14 @@ public class EMailController {
             String weather = weatherService.getApiContent("", cityCode, user.getUserId());
             String movie = movieService.getApiContent("").get("email");
             String news = newsApiService.getApiContent("");
-            String novel = novelService.getApiContent("");
+            String novel = "";
+            try {
+                novel = threadPoolExecutor.submit(() -> novelService.getApiContent("")).get(100, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException | ExecutionException e) {
+                logger.error("ExecutionException{}", "线程池异常");
+            } catch (TimeoutException t) {
+                logger.error("小说请求接口调用超时{}", "异步超时使用成功");
+            }
             String joke = jokeiService.getApiContent("");
             String content = weather + "<br/>" + news + "<br/>" + huangLi + "<br/>" + movie + "<br/><br/>" + novel + "<br/>" + joke;
             if ("张维".equals(name)) {
