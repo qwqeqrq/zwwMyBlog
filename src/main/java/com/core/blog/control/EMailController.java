@@ -51,8 +51,8 @@ public class EMailController {
     @Autowired
     UserService userService;
     //异步处理线程池
-    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(1, 1,
-            10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(10));
+    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3, 10,
+            10, TimeUnit.SECONDS, new LinkedBlockingQueue<>(100));
 
     /**
      * @描述： 每天早上定时发送订阅邮件
