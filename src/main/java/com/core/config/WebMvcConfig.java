@@ -19,6 +19,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //2019年8月14日11:00:58 放行文件加入css放行 *.css解决拦截器 导致的页面多次访问后端获取css,css.map
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/**/*.css","/sys/login/**","/Email/unsubscribe/**");
+                .excludePathPatterns("/**/*.css","/sys/login/**","/Email/unsubscribe/**","/score/**/*");
     }
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="${'http://www.thymeleaf.org">
+
+<head th:fragment="head(title,cssPaths)">
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>成绩单</title>
+
+    <!-- Custom CSS -->
+    <link href="../static/dist/css/sb-admin-2.css" th:href="${'/dist/css/sb-admin-2.css'}" rel="stylesheet"/>
+
+    <link th:href="${'/vendor/bootstrap/css/bootstrap.min.css'}" href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- MetisMenu CSS -->
+    <link href="../static/vendor/metisMenu/metisMenu.min.css" th:href="${'/vendor/metisMenu/metisMenu.min.css'}" rel="stylesheet"/>
+    <!-- Morris Charts CSS -->
+    <link href="../static/vendor/morrisjs/morris.css" th:href="${'/vendor/morrisjs/morris.css'}" rel="stylesheet"/>
+
+    <!-- Custom Fonts -->
+    <link href="../static/vendor/font-awesome/css/font-awesome.min.css" th:href="${'/vendor/font-awesome/css/font-awesome.min.css'}"       rel="stylesheet" type="text/css"/>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script th:src="@{https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js}"></script>
+    <script th:src="@{https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js}"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div class="panel-body"  >
+    <div class="table-responsive">
+        <table   class="table table-striped table-bordered table-hover" id="dataTables-example">
+            <thead>
+            <tr>
+                <th>考试</th>
+                <th>姓名</th>
+                <th>班级</th>
+                <th>语文</th>
+                <th>数学</th>
+                <th>英语</th>
+                <th>物理</th>
+                <th>化学</th>
+                <th>生物</th>
+                <th>理综合</th>
+                <th>总分</th>
+                <th>班级名次</th>
+                <th>年级名次</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="gradeC" th:each="score,iterStat : ${scores}">
+                <td th:text="${score.testTitle}"></td>
+                <td th:text="${score.name}"></td>
+                <td th:text="${score.classes}"></td>
+                <td th:text="${score.chinese}"></td>
+                <td th:text="${score.math}"></td>
+                <td th:text="${score.english}"></td>
+                <td th:text="${score.wuli}"></td>
+                <td th:text="${score.huaxue}"></td>
+                <td th:text="${score.shengwu}"></td>
+                <td th:text="${score.lizonghe}"></td>
+                <td th:text="${score.total}"></td>
+                <td th:text="${score.classRank}"></td>
+                <td th:text="${score.gradeRank}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    <!-- jQuery -->
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <!-- Bootstrap Core JavaScript -->
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script th:src="@{/vendor/metisMenu/metisMenu.min.js}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script th:src="@{/vendor/raphael/raphael.min.js}"></script>
+    <script th:src="@{/vendor/morrisjs/morris.min.js}"></script>
+    <script th:src="@{/data/morris-data.js}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script th:src="${'/js/sb-admin-2.js'}"></script>
+
+</body>
+
+</html>

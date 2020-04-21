@@ -2,7 +2,7 @@ package com.core.blog.service;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.aliyun.openservices.shade.com.alibaba.fastjson.JSON;
-import com.core.blog.uitls.DateUtil;
+import com.core.blog.uitls.DateUtils;
 import com.core.console.service.EmailScheduleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,13 +40,13 @@ public class WeatherServiceImpl implements GreatApiService {
         String title = "赶紧去日程表添加吧";
         try {
             Map resultMap = restTemplate.getForEntity(Url, Map.class).getBody();
-            String nowDay = DateUtil.getStringDateShort();
+            String nowDay = DateUtils.getStringDateShort();
             Map map = emailScheduleService.getEmailSchedule(userId);
             if (map != null && map.size() > 0) {
                 date = map.get("date").toString();
                 title = map.get("title").toString();
             }
-            String countDown = DateUtil.getTwoDay(date, nowDay);//计算时间差
+            String countDown = DateUtils.getTwoDay(date, nowDay);//计算时间差
             if ("0".equals(countDown)) {
                 int id = (int) map.get("id");
                 emailScheduleService.updateEmailSchedule(id);

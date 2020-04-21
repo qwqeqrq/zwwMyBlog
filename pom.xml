@@ -35,17 +35,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.21</version>
         </dependency>
-        <!--引入数据库驱动  配置com.mysql.cj.jdbc.Driver提供驱动-->
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-       <!-- <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.13</version>
-        </dependency>-->
-        <!--<dependency>
-               <groupId>org.springframework.boot</groupId>
-               <artifactId>spring-boot-starter-data-jpa</artifactId>
-         </dependency>-->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
@@ -57,9 +46,22 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <!--引入数据库驱动  配置com.mysql.cj.jdbc.Driver提供驱动-->
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+       <!-- <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.13</version>
+        </dependency>-->
+        <!--thymeleaf  前段页面-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -97,6 +99,27 @@
             <groupId>com.aliyun.openservices</groupId>
             <artifactId>ons-client</artifactId>
             <version>1.7.0.Final</version>
+        </dependency>
+        <!--excel-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.10-FINAL</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.10-FINAL</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3</version>
         </dependency>
     </dependencies>
     <build>

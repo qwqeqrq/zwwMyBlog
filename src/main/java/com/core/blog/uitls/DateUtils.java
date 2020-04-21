@@ -24,7 +24,7 @@ import java.util.*;
  * @description: 时间操作工具类
  * @data: 2017-12-20 15:36
  **/
-public class DateUtil {
+public class DateUtils {
 
     public static String pattern = "yyyy-MM-dd";
     public static SimpleDateFormat formatter = new SimpleDateFormat(pattern);
@@ -487,7 +487,7 @@ public class DateUtil {
      */
     public static String getWeek(String sdate, String num) {
         // 再转换为时间
-        Date dd = DateUtil.strToDate(sdate);
+        Date dd = DateUtils.strToDate(sdate);
         Calendar c = Calendar.getInstance();
         c.setTime(dd);
         if (num.equals("1")) // 返回星期一所在的日期
@@ -515,7 +515,7 @@ public class DateUtil {
      */
     public static String getWeek(String sdate) {
         // 再转换为时间
-        Date date = DateUtil.strToDate(sdate);
+        Date date = DateUtils.strToDate(sdate);
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         // int hour=c.get(Calendar.DAY_OF_WEEK);
@@ -526,7 +526,7 @@ public class DateUtil {
 
     public static String getWeekStr(String sdate) {
         String str = "";
-        str = DateUtil.getWeek(sdate);
+        str = DateUtils.getWeek(sdate);
         if ("1".equals(str)) {
             str = "星期日";
         } else if ("2".equals(str)) {
@@ -581,11 +581,11 @@ public class DateUtil {
         sdate = sdate.substring(0, 8) + "01";
 
         // 得到这个月的1号是星期几
-        Date date = DateUtil.strToDate(sdate);
+        Date date = DateUtils.strToDate(sdate);
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         int u = c.get(Calendar.DAY_OF_WEEK);
-        String newday = DateUtil.getNextDay(sdate, (1 - u) + "");
+        String newday = DateUtils.getNextDay(sdate, (1 - u) + "");
         return newday;
     }
 
