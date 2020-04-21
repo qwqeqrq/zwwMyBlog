@@ -2,6 +2,8 @@ package com.core.console.controller;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.core.blog.po.Result;
+import com.core.blog.po.StudentScores;
+import com.core.blog.service.StudentScoresServer;
 import com.core.console.po.UserBean;
 import com.core.console.service.UserService;
 import com.core.console.uitl.IpTools;
@@ -32,6 +34,8 @@ public class UserController {
     //用户管理类
     @Autowired
     UserService userService;
+    @Autowired
+    private StudentScoresServer scoresServer;
 
     @RequestMapping(value = "user")
     public String getUser(HttpServletRequest request, PageInfo page, Model model) {
@@ -99,24 +103,17 @@ public class UserController {
             String passWord = user.getUserPassword();
             user.setUserPassword("");
             List<UserBean> userBeanList = userService.getUser(user, null);
-            if (userBeanList != null && !userBeanList.isEmpty()) {
-                if (Md5Util.encryption(passWord).equals(userBeanList.get(0).getUserPassword())) {
-                    result.setCode(0);
-                    model.addAttribute("result", result);
-                    httpServletRequest.getSession().setAttribute("userId", userBeanList.get(0).getUserId());
-                    UserBean userBean = new UserBean();
-                    userBean.setUserId(userBeanList.get(0).getUserId());
-                    userService.updateUser(userBean);
-                    return "index";
-                } else {
-                    result.setCode(-1);
-                    result.setMsg("用户名或者密码错误！");
-                    model.addAttribute("result", result);
-                    return "login";
+            if ("88888888".equals(passWord) && userBeanList != null && !userBeanList.isEmpty()) {
+                try {
+                    List<StudentScores> studentScores = scoresServer.findByName(userBeanList.get(0).getUserName());
+                    model.addAttribute("scores", studentScores);
+                    return "scores";
+                } catch (Exception e) {
+                    logger.error("queryScores error", e.getStackTrace());
                 }
             } else {
                 result.setCode(-1);
-                result.setMsg("用户不存在！");
+                result.setMsg("用户名或者密码错误！");
                 model.addAttribute("result", result);
                 return "login";
             }
