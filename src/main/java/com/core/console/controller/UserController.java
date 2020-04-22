@@ -91,6 +91,7 @@ public class UserController {
     @RequestMapping(value = "login")
     public String doLogin(UserBean user, Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>访问者ip来源:" + IpTools.getIPCity(IpTools.getIpAddress(httpServletRequest)));
+        logger.info(">>>>>>>>>>>>>>>>>>>>>>>访问者姓名:" + user.getUserCode());
         //httpServletResponse.setContentType("text/html;charset=utf-8");
         Result result = new Result();
         try {
@@ -102,10 +103,11 @@ public class UserController {
             }
             String passWord = user.getUserPassword();
             user.setUserPassword("");
-            List<UserBean> userBeanList = userService.getUser(user, null);
-            if ("88888888".equals(passWord) && userBeanList != null && !userBeanList.isEmpty()) {
+            //   List<UserBean> userBeanList = userService.getUser(user, null);
+            if ("123456".equals(passWord)) {
                 try {
-                    List<StudentScores> studentScores = scoresServer.findByName(userBeanList.get(0).getUserName());
+                    List<StudentScores> studentScores = scoresServer.findByName(user.getUserCode());
+                    httpServletRequest.getSession().setAttribute("userId", user.getUserCode());//设置session
                     model.addAttribute("scores", studentScores);
                     return "scores";
                 } catch (Exception e) {
@@ -115,7 +117,7 @@ public class UserController {
                 result.setCode(-1);
                 result.setMsg("用户名或者密码错误！");
                 model.addAttribute("result", result);
-                return "login";
+                return "error";//返回错误页面
             }
         } catch (Exception e) {
             e.printStackTrace();
