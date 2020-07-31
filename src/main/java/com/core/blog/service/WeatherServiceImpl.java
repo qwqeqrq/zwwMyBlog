@@ -32,9 +32,10 @@ public class WeatherServiceImpl implements GreatApiService {
      * @date: 2018/12/14/00014 21:54 计算春节剩余时间，2019年2月10日21:09:59更新为计算元宵节。 2019年3月30日01:40:22 更新为计算五一还有多久
      * 2019年5月5日11:17:07 新增日程表 维护日期计算
      */
-    public String getApiContent(String Url, String cityCode, int userId) {
+    public  String getApiContent(String Url, String cityCode, int userId) {
         //Url = "http://t.weather.itboy.net/api/weather/city/" + cityCode;；这个域名被停用了
-        Url = "http://t.weather.sojson.com/api/weather/city/" + cityCode;
+        // Url = "http://t.weather.sojson.com/api/weather/city/" + cityCode; 2020年7月31日  这个域名也不提供服务了 重新找一个
+        Url = "https://tianqiapi.com/free/day?appid=23035354&appsecret=8YvlPNrz&city=" + cityCode;
         RestTemplate restTemplate = new RestTemplate();
         String date = "2050-01-01";
         String title = "赶紧去日程表添加吧";
@@ -53,59 +54,47 @@ public class WeatherServiceImpl implements GreatApiService {
             }
             int cede = (int) resultMap.get("status");
             if (cede == 200) {
-                String cityStr = JSONUtils.toJSONString(resultMap.get("cityInfo"));
-                Map cityMap = JSON.parseObject(cityStr, Map.class);
-                String cityName = cityMap.get("city").toString();
-                String jsonStr = JSONUtils.toJSONString(resultMap.get("data"));
-                Map dataMap = JSON.parseObject(jsonStr, Map.class);
-                String jokeContent = dataMap.get("forecast").toString();
-                String wendu = dataMap.get("wendu").toString();
-                String pm25 = dataMap.get("pm25").toString();
-                String pm10 = dataMap.get("pm10").toString();
-                String quality = dataMap.get("quality").toString();
-                String shidu = dataMap.get("shidu").toString();
-                String ganmao = dataMap.get("ganmao").toString();
-                List forecasts = JSON.parseObject(jokeContent, List.class);
-                for (Object forecast : forecasts) {
-                    Map forecastMap = JSON.parseObject(forecast.toString(), Map.class);
-                    if (nowDay.equals(forecastMap.get("ymd").toString())) {
-                        String sunrise = forecastMap.get("sunrise").toString();
-                        String high = forecastMap.get("high").toString();
-                        String low = forecastMap.get("low").toString();
-                        String sunset = forecastMap.get("sunset").toString();
-                        String aqi = forecastMap.get("aqi").toString();
-                        String ymd = forecastMap.get("ymd").toString();
-                        String week = forecastMap.get("week").toString();
-                        String fx = forecastMap.get("fx").toString();
-                        String fl = forecastMap.get("fl").toString();
-                        String type = forecastMap.get("type").toString();
-                        String notice = forecastMap.get("notice").toString();
-                        String weather = "贴心天气------<br/>" + cityName + "天气" + "("
-                                + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + title + countDown + "天" + "<br/>"
-                                + "天气类型:" + type + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                                + "当前温度:" + wendu + "℃<br/>"
-                                + "空气质量:" + quality + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                                + "湿度:" + shidu + "<br/>"
-                                + "PM2.5:" + pm25 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                                + "PM10:" + pm10 + "<br/>"
-                                + "最" + high + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                                + "最" + low + " <br/>"
-                                + "风向:" + fx + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                                + "风力:" + fl + "<br/>"
-                                + "日出时间:" + sunrise + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                                + "日落时间:" + sunset + "<br/>"
-                                + "感冒建议:" + ganmao + "<br/>"
-                                + "天气建议:" + notice + "<br/>";
-                        return weather;
-                    }
-                }
-                return "";
+                String cityName = resultMap.get("city").toString();
+                String wendu = resultMap.get("tem").toString();
+                String quality = resultMap.get("air").toString();
+                String shidu = resultMap.get("shidu").toString();
+                String ganmao = resultMap.get("ganmao").toString();
+                String sunrise = resultMap.get("sunrise").toString();
+                String high = resultMap.get("tem_day").toString();
+                String low = resultMap.get("tem_night").toString();
+                String sunset = resultMap.get("sunset").toString();
+                String ymd = resultMap.get("ymd").toString();
+                String week = resultMap.get("week").toString();
+                String fx = resultMap.get("win").toString();
+                String fl = resultMap.get("win_meter").toString();
+                String type = resultMap.get("wea").toString();
+                String notice = resultMap.get("notice").toString();
+                String weather = "贴心天气------<br/>" + cityName + "天气" + "("
+                        + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + title + countDown + "天" + "<br/>"
+                        + "天气类型:" + type + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "当前温度:" + wendu + "℃<br/>"
+                        + "空气质量:" + quality + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "湿度:" + shidu + "<br/>"
+                        + "最" + high + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "最" + low + " <br/>"
+                        + "风向:" + fx + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "风力:" + fl + "<br/>"
+                        + "日出时间:" + sunrise + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                        + "日落时间:" + sunset + "<br/>"
+                        + "感冒建议:" + ganmao + "<br/>"
+                        + "天气建议:" + notice + "<br/>";
+                return weather;
             }
-        } catch (Exception e) {
-            logger.error("天气获取失败>>>>>>>>>>>>>>>>>" + e.getMessage());
-        }
         return "";
+
+    } catch(
+    Exception e)
+
+    {
+        logger.error("天气获取失败>>>>>>>>>>>>>>>>>" + e.getMessage());
     }
+        return"";
+}
 
     @Override
     public String getApiContent(String ApiUrl) throws Exception {
