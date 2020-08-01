@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by zww on 2018-12-14.
@@ -54,21 +55,21 @@ public class WeatherServiceImpl implements GreatApiService {
             }
             int cede = (int) resultMap.get("status");
             if (cede == 200) {
-                String cityName = resultMap.get("city").toString();
-                String wendu = resultMap.get("tem").toString();
-                String quality = resultMap.get("air").toString();
-                String shidu = resultMap.get("shidu").toString();
-                String ganmao = resultMap.get("ganmao").toString();
-                String sunrise = resultMap.get("sunrise").toString();
-                String high = resultMap.get("tem_day").toString();
-                String low = resultMap.get("tem_night").toString();
-                String sunset = resultMap.get("sunset").toString();
-                String ymd = resultMap.get("ymd").toString();
-                String week = resultMap.get("week").toString();
-                String fx = resultMap.get("win").toString();
-                String fl = resultMap.get("win_meter").toString();
-                String type = resultMap.get("wea").toString();
-                String notice = resultMap.get("notice").toString();
+                String cityName = Optional.ofNullable(resultMap.get("city")).orElse("").toString();
+                String wendu = Optional.ofNullable(resultMap.get("tem")).orElse("").toString();
+                String quality = Optional.ofNullable(resultMap.get("air")).orElse("").toString();
+                String shidu = Optional.ofNullable(resultMap.get("shidu")).orElse("").toString();
+                String ganmao = Optional.ofNullable(resultMap.get("ganmao")).orElse("").toString();
+                String sunrise = Optional.ofNullable(resultMap.get("sunrise")).orElse("").toString();
+                String high = Optional.ofNullable(resultMap.get("tem_day")).orElse("").toString();
+                String low = Optional.ofNullable(resultMap.get("tem_night")).orElse("").toString();
+                String sunset = Optional.ofNullable(resultMap.get("sunset")).orElse("").toString();
+                String ymd = Optional.ofNullable(resultMap.get("ymd")).orElse("").toString();
+                String week = Optional.ofNullable(resultMap.get("week")).orElse("").toString();
+                String fx = Optional.ofNullable(resultMap.get("win")).orElse("").toString();
+                String fl = Optional.ofNullable(resultMap.get("win_meter")).orElse("").toString();
+                String type = Optional.ofNullable(resultMap.get("wea")).orElse("").toString();
+                String notice = Optional.ofNullable(resultMap.get("notice")).orElse("").toString();
                 String weather = "贴心天气------<br/>" + cityName + "天气" + "("
                         + "日期:" + ymd + ") " + week + "<br/>" + type + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + title + countDown + "天" + "<br/>"
                         + "天气类型:" + type + " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -91,7 +92,7 @@ public class WeatherServiceImpl implements GreatApiService {
     Exception e)
 
     {
-        logger.error("天气获取失败>>>>>>>>>>>>>>>>>" + e.getMessage());
+        logger.error("天气获取失败>>>>>>>>>>>>>>>>>{}",e);
     }
         return"";
 }
